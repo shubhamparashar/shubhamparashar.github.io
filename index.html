@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Shubham Parashar. Backend engineer at Fleek. Building backend systems that stay up and AI agents you can trust in prod.">
+<title>Shubham Parashar · Backend &amp; Agent Engineer</title>
+<style>
+  :root {
+    --bg:#10141f; --panel:#141927; --line:#232a3b; --text:#e6e8ee;
+    --muted:#9aa3b5; --faint:#6b7488; --accent:#ff8a3d; --green:#7ee787;
+    --mono:"JetBrains Mono","SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.7; }
+  .wrap { max-width:880px; margin:0 auto; padding:0 28px; }
+
+  nav { display:flex; gap:26px; font-size:14px; color:var(--muted); padding:44px 0 0; align-items:center; }
+  nav .logo { font-family:var(--mono); color:var(--accent); font-weight:700; margin-right:auto; font-size:15px; text-decoration:none; white-space:nowrap; }
+  nav a { color:var(--muted); text-decoration:none; }
+  nav a:hover { color:#fff; }
+
+  header { padding:96px 0 0; }
+  h1 { font-size:clamp(32px,6vw,46px); line-height:1.14; font-weight:700; letter-spacing:-0.02em; max-width:660px; }
+  h1 .accent { color:var(--accent); }
+  .sub { color:var(--muted); max-width:580px; margin-top:20px; font-size:18px; }
+  .sub a { color:var(--accent); text-decoration:none; }
+  .sub a:hover { text-decoration:underline; }
+  .statline { display:flex; flex-wrap:wrap; gap:32px 40px; margin-top:40px; font-family:var(--mono); font-size:13px; color:var(--faint); }
+  .statline b { display:block; color:var(--text); font-size:21px; }
+
+  h2 { font-size:14px; text-transform:uppercase; letter-spacing:0.14em; color:var(--faint); margin:96px 0 24px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .card { border:1px solid var(--line); border-radius:10px; padding:22px; background:var(--panel); display:block; text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s; }
+  .card:hover { border-color:#ff8a3d66; transform:translateY(-2px); }
+  .card .t { font-weight:600; font-size:18px; display:flex; justify-content:space-between; gap:12px; }
+  .card .t .lang { font-family:var(--mono); font-size:12px; color:var(--accent); white-space:nowrap; align-self:center; }
+  .card p { color:var(--muted); font-size:15px; margin-top:8px; }
+  .card .metric { font-family:var(--mono); font-size:12.5px; color:var(--green); margin-top:14px; }
+
+  .entry { margin-bottom:26px; max-width:640px; }
+  .entry .t a { color:var(--text); font-size:19px; font-weight:600; text-decoration:none; border-bottom:1px solid var(--line); }
+  .entry .t a:hover { color:var(--accent); border-color:var(--accent); }
+  .entry .m { font-family:var(--mono); font-size:12.5px; color:var(--faint); margin-top:4px; }
+  .entry .d { color:var(--muted); font-size:15px; margin-top:6px; }
+
+  .ticker { margin-top:96px; border:1px solid var(--line); border-radius:10px; background:#0b0f18; padding:16px 22px; font-family:var(--mono); font-size:13px; color:var(--green); white-space:nowrap; overflow:hidden; }
+  .ticker .dim { color:#4d5567; }
+  .ticker .blink { animation:blink 1.2s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+
+  footer { margin:96px 0 56px; padding-top:28px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:24px; font-size:14px; color:var(--faint); }
+  footer a { color:var(--muted); text-decoration:none; font-family:var(--mono); font-size:13px; }
+  footer a:hover { color:var(--accent); }
+  footer .made { margin-left:auto; }
+
+  @media (max-width:640px){ .grid { grid-template-columns:1fr; } nav { gap:16px; } }
+  @media (prefers-reduced-motion:reduce){ * { animation:none !important; transition:none !important; } html { scroll-behavior:auto; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#">sp@prod ~</a>
+    <a href="#work">Work</a>
+    <a href="#writing">Writing</a>
+    <a href="https://github.com/shubhamparashar">GitHub</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <header>
+    <h1>Backend systems that stay up.<br>Agents you can <span class="accent">trust in prod</span>.</h1>
+    <p class="sub">I&rsquo;m Shubham Parashar, an engineer at <a href="https://www.joinfleek.com">Fleek</a>, scaling a global B2B fashion marketplace. On the side I build the tooling layer that makes AI coding agents accountable: memory, routing, and deploy sentinels.</p>
+    <div class="statline">
+      <span><b>41%</b>infra cost cut</span>
+      <span><b>-83%</b>log volume</span>
+      <span><b>0</b>5xx on cutover</span>
+      <span><b>15+</b>open repos</span>
+    </div>
+  </header>
+
+  <h2 id="work">Work</h2>
+  <div class="grid">
+    <a class="card" href="https://github.com/shubhamparashar/claude-conductor">
+      <div class="t">claude-conductor <span class="lang">JS</span></div>
+      <p>Plugin stack turning Claude Code into a self-improving copilot: persistent memory, model routing, deploy sentinels, knowledge sync.</p>
+      <div class="metric">&#9650; used daily in production workflows</div>
+    </a>
+    <a class="card" href="https://github.com/shubhamparashar/cc-orchestrator">
+      <div class="t">cc-orchestrator <span class="lang">JS</span></div>
+      <p>Session indexing for AI coding agents. Resume, fork, and search past agent work across sessions.</p>
+      <div class="metric">&#9650; powers cross-session recall</div>
+    </a>
+    <a class="card" href="#writing">
+      <div class="t">fleet right-sizing <span class="lang">AWS</span></div>
+      <p>Proved CPU-target autoscaling is structurally dead for single-threaded runtimes; moved a Fargate fleet to request-rate scaling.</p>
+      <div class="metric">&#9650; 41% cheaper per task, p99 flat</div>
+    </a>
+    <a class="card" href="#writing">
+      <div class="t">log sampling in prod <span class="lang">AWS</span></div>
+      <p>Head-sampled noisy success logs across Lambda and Fargate while keeping failures and slow calls at 100%.</p>
+      <div class="metric">&#9650; -83% observability volume, zero incidents</div>
+    </a>
+    <a class="card" href="https://github.com/shubhamparashar/localflow">
+      <div class="t">localflow <span class="lang">Swift</span></div>
+      <p>Native macOS app for building and running local automation workflows without the cloud.</p>
+      <div class="metric">&#9650; local-first by design</div>
+    </a>
+    <a class="card" href="https://github.com/shubhamparashar/redis-clone">
+      <div class="t">redis-clone <span class="lang">C</span></div>
+      <p>The Redis wire protocol and core data structures from scratch, to understand what makes an in-memory store fast.</p>
+      <div class="metric">&#9650; RESP2 compatible</div>
+    </a>
+  </div>
+
+  <h2 id="writing">Writing</h2>
+  <div class="entry">
+    <div class="t"><a href="#">Cutting a Fargate fleet&rsquo;s cost 41% without touching latency</a></div>
+    <div class="m">July 2026 &middot; 12 min</div>
+    <div class="d">Why a single-threaded runtime can never saturate a multi-vCPU task, and how to resize safely behind a 7-day anomaly vigil.</div>
+  </div>
+  <div class="entry">
+    <div class="t"><a href="#">Why CPU-target autoscaling is structurally dead</a></div>
+    <div class="m">July 2026 &middot; 9 min</div>
+    <div class="d">A policy that is mathematically incapable of firing, 12,243 shed requests, and the metric that actually tracks saturation.</div>
+  </div>
+  <div class="entry">
+    <div class="t"><a href="#">Teaching an agent to watch its own deploys</a></div>
+    <div class="m">June 2026 &middot; 15 min</div>
+    <div class="d">Deploy sentinels: artifact proof, log baselines, and pre-authorized reversal recipes for AI-shipped changes.</div>
+  </div>
+
+  <div class="ticker"><span class="dim">agent-log &rsaquo;</span> <span id="tick">deploy sentinel armed</span> <span class="dim">&middot;</span> 0 anomalies in 234 checks <span class="dim">&middot;</span> log sampler holding at -83% <span class="blink">&#9646;</span></div>
+
+  <footer id="contact">
+    <a href="mailto:shubhamparashar210@gmail.com">email</a>
+    <a href="https://github.com/shubhamparashar">github</a>
+    <a href="https://www.linkedin.com/in/shubham-parashar-80333b173/">linkedin</a>
+    <span class="made">0 frameworks. Loads before you blink.</span>
+  </footer>
+</div>
+
+<script>
+  const states = ["deploy sentinel armed", "vigil sweep clean", "p99 flat", "artifact proven", "fleet healthy 7/7"];
+  let i = 0;
+  const el = document.getElementById("tick");
+  if (el && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    setInterval(() => { i = (i + 1) % states.length; el.textContent = states[i]; }, 3000);
+  }
+</script>
+</body>
+</html>
