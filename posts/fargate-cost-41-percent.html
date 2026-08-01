@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="How we cut a Fargate fleet's per-task cost 41% without touching latency, and the 7-day anomaly vigil that made the resize safe.">
+<title>Cutting a Fargate fleet's cost 41% without touching latency · Shubham Parashar</title>
+<style>
+  :root { --bg:#10141f; --line:#232a3b; --text:#e6e8ee; --muted:#9aa3b5; --faint:#6b7488; --accent:#ff8a3d; --green:#7ee787;
+    --mono:"JetBrains Mono","SF Mono",Menlo,monospace; --sans:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:17px; line-height:1.8; }
+  .wrap { max-width:680px; margin:0 auto; padding:44px 24px 80px; }
+  nav a { font-family:var(--mono); color:var(--accent); font-weight:700; font-size:15px; text-decoration:none; }
+  h1 { font-size:clamp(26px,5vw,36px); line-height:1.2; letter-spacing:-0.02em; margin:56px 0 8px; }
+  .meta { font-family:var(--mono); font-size:13px; color:var(--faint); margin-bottom:40px; }
+  p { color:var(--muted); margin-bottom:20px; }
+  h2 { font-size:21px; color:var(--text); margin:40px 0 14px; }
+  strong { color:var(--text); }
+  code { font-family:var(--mono); font-size:14px; background:#0b0f18; border:1px solid var(--line); border-radius:4px; padding:2px 6px; color:var(--green); }
+  pre { background:#0b0f18; border:1px solid var(--line); border-radius:8px; padding:16px; overflow-x:auto; margin-bottom:20px; }
+  pre code { border:none; padding:0; background:none; }
+  table { width:100%; border-collapse:collapse; margin-bottom:20px; font-size:15px; }
+  th,td { text-align:left; padding:8px 12px; border-bottom:1px solid var(--line); color:var(--muted); }
+  th { color:var(--text); }
+  .back { margin-top:56px; }
+  .back a { color:var(--accent); text-decoration:none; font-family:var(--mono); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a href="../index.html">sp@prod ~</a></nav>
+  <h1>Cutting a Fargate fleet&rsquo;s cost 41% without touching latency</h1>
+  <div class="meta">July 2026 &middot; 12 min &middot; aws, fargate, cost</div>
+
+  <p>Our GraphQL service ran on Fargate tasks sized 4 vCPU each, and the fleet averaged 6&ndash;8% CPU. The obvious reading is &ldquo;plenty of headroom.&rdquo; The correct reading is &ldquo;we are paying for cores the runtime physically cannot use.&rdquo;</p>
+
+  <h2>A single-threaded runtime cannot saturate a multi-vCPU task</h2>
+  <p>A Node process runs application code on one thread. On an N-vCPU task, application CPU tops out near <code>1/N</code>:</p>
+  <table>
+    <tr><th>Task size</th><th>Max reportable CPU at full saturation</th></tr>
+    <tr><td>1 vCPU</td><td>~100%</td></tr>
+    <tr><td>2 vCPU</td><td>~50%</td></tr>
+    <tr><td>4 vCPU</td><td><strong>~25%</strong></td></tr>
+  </table>
+  <p>So our measured 6&ndash;8% average with ~20% peaks was not headroom. It was a saturated JS thread hiding behind a denominator. One caveat we measured before acting: V8 also runs GC and compiler threads on other cores, so the process as a whole can briefly exceed <code>1/N</code>. That auxiliary load is real and it is what you delete when you cut cores, so budget for it instead of assuming a free resize.</p>
+
+  <h2>What we actually changed</h2>
+  <p>Three moves, one commit each:</p>
+  <p><strong>1. Sized tasks to what the runtime can use.</strong> One core for the work thread plus headroom for GC and the libuv pool. We also learned the hard way that <code>os.availableParallelism()</code> reads the CPU affinity mask, not the container quota, so the thread pool does not shrink when the task does. Read the cgroup (or on Fargate, the task metadata endpoint) if you want the truth.</p>
+  <p><strong>2. Moved heap flags in the same commit as memory.</strong> <code>--max-old-space-size</code> is an absolute number, not a percentage of the container limit. Shrink the container without shrinking the flag and the OOM killer will explain the relationship to you at 3am.</p>
+  <p><strong>3. Verified the deployed task actually got the sizing.</strong> An edited config that never reached a running task looks identical to a successful change. We emit the runtime&rsquo;s own view (<code>v8.getHeapStatistics().heap_size_limit</code>, cgroup CPU quota) as gauges on every boot.</p>
+
+  <h2>The 7-day vigil</h2>
+  <p>Averages hide resize regressions; tails reveal them. Instead of a smoke test and a prayer, we captured a pre-change baseline (p99 latency, event-loop lag, GC pause distribution, 5xx counts) and ran an automated sweep every 45 minutes for a week, comparing live signals against the baseline and paging on divergence. 234 checks, 0 anomalies, p99 flat.</p>
+  <p>Result: <strong>41% cheaper per task, latency unchanged.</strong> The bill went down because the mental model changed, not because anyone &ldquo;optimized&rdquo; code.</p>
+
+  <div class="back"><a href="../index.html">&larr; back</a> &middot; <a href="cpu-autoscaling-structurally-dead.html">next: why CPU-target autoscaling is structurally dead &rarr;</a></div>
+</div>
+</body>
+</html>

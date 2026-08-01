@@ -93,12 +93,12 @@
       <p>Session indexing for AI coding agents. Resume, fork, and search past agent work across sessions.</p>
       <div class="metric">&#9650; powers cross-session recall</div>
     </a>
-    <a class="card" href="#writing">
+    <a class="card" href="posts/fargate-cost-41-percent.html">
       <div class="t">fleet right-sizing <span class="lang">AWS</span></div>
       <p>Proved CPU-target autoscaling is structurally dead for single-threaded runtimes; moved a Fargate fleet to request-rate scaling.</p>
       <div class="metric">&#9650; 41% cheaper per task, p99 flat</div>
     </a>
-    <a class="card" href="#writing">
+    <a class="card" href="posts/deploy-sentinels.html">
       <div class="t">log sampling in prod <span class="lang">AWS</span></div>
       <p>Head-sampled noisy success logs across Lambda and Fargate while keeping failures and slow calls at 100%.</p>
       <div class="metric">&#9650; -83% observability volume, zero incidents</div>
@@ -117,17 +117,17 @@
 
   <h2 id="writing">Writing</h2>
   <div class="entry">
-    <div class="t"><a href="#">Cutting a Fargate fleet&rsquo;s cost 41% without touching latency</a></div>
+    <div class="t"><a href="posts/fargate-cost-41-percent.html">Cutting a Fargate fleet&rsquo;s cost 41% without touching latency</a></div>
     <div class="m">July 2026 &middot; 12 min</div>
     <div class="d">Why a single-threaded runtime can never saturate a multi-vCPU task, and how to resize safely behind a 7-day anomaly vigil.</div>
   </div>
   <div class="entry">
-    <div class="t"><a href="#">Why CPU-target autoscaling is structurally dead</a></div>
+    <div class="t"><a href="posts/cpu-autoscaling-structurally-dead.html">Why CPU-target autoscaling is structurally dead</a></div>
     <div class="m">July 2026 &middot; 9 min</div>
     <div class="d">A policy that is mathematically incapable of firing, 12,243 shed requests, and the metric that actually tracks saturation.</div>
   </div>
   <div class="entry">
-    <div class="t"><a href="#">Teaching an agent to watch its own deploys</a></div>
+    <div class="t"><a href="posts/deploy-sentinels.html">Teaching an agent to watch its own deploys</a></div>
     <div class="m">June 2026 &middot; 15 min</div>
     <div class="d">Deploy sentinels: artifact proof, log baselines, and pre-authorized reversal recipes for AI-shipped changes.</div>
   </div>

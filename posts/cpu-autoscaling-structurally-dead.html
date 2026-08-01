@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Why CPU-target autoscaling can be mathematically incapable of firing on single-threaded runtimes, and what to scale on instead.">
+<title>Why CPU-target autoscaling is structurally dead · Shubham Parashar</title>
+<style>
+  :root { --bg:#10141f; --line:#232a3b; --text:#e6e8ee; --muted:#9aa3b5; --faint:#6b7488; --accent:#ff8a3d; --green:#7ee787;
+    --mono:"JetBrains Mono","SF Mono",Menlo,monospace; --sans:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:17px; line-height:1.8; }
+  .wrap { max-width:680px; margin:0 auto; padding:44px 24px 80px; }
+  nav a { font-family:var(--mono); color:var(--accent); font-weight:700; font-size:15px; text-decoration:none; }
+  h1 { font-size:clamp(26px,5vw,36px); line-height:1.2; letter-spacing:-0.02em; margin:56px 0 8px; }
+  .meta { font-family:var(--mono); font-size:13px; color:var(--faint); margin-bottom:40px; }
+  p { color:var(--muted); margin-bottom:20px; }
+  h2 { font-size:21px; color:var(--text); margin:40px 0 14px; }
+  strong { color:var(--text); }
+  code { font-family:var(--mono); font-size:14px; background:#0b0f18; border:1px solid var(--line); border-radius:4px; padding:2px 6px; color:var(--green); }
+  .back { margin-top:56px; }
+  .back a { color:var(--accent); text-decoration:none; font-family:var(--mono); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a href="../index.html">sp@prod ~</a></nav>
+  <h1>Why CPU-target autoscaling is structurally dead</h1>
+  <div class="meta">July 2026 &middot; 9 min &middot; aws, autoscaling, node</div>
+
+  <p>We had an autoscaling policy targeting 40% average CPU on a service that, at full saturation, could not report much above 25%. The policy was not conservative. It was <strong>mathematically incapable of triggering</strong>.</p>
+
+  <h2>The failure, concretely</h2>
+  <p>During a traffic burst the fleet sat pinned at <code>min_capacity</code> while the load balancer shed the overflow: <strong>12,243 gateway timeouts in a single metric bucket</strong>. Application 5xx stayed at zero the whole time, because the app never errored. It just stopped answering. Every dashboard that watched error rate looked green while users watched spinners.</p>
+  <p>The root cause is the same arithmetic from <a style="color:var(--accent)" href="fargate-cost-41-percent.html">the resize story</a>: a single-threaded runtime on an N-vCPU task caps application CPU near 1/N. A 40% target against a ~25% ceiling is a policy that can never fire, on any traffic, ever. No amount of tuning the threshold fixes a broken denominator.</p>
+
+  <h2>Scale on the resource that actually saturates</h2>
+  <p>For a single-threaded server the scarce resource is the event loop, and the load on it is proportional to request rate. So we scale on <code>ALBRequestCountPerTarget</code>: it tracks the thing that saturates, it is independent of task size, and it moves the moment traffic moves instead of after CPU averages catch up. CPU stays as a secondary policy for pathological cases.</p>
+
+  <h2>Judge saturation by event-loop lag, not CPU</h2>
+  <p>The metric that told the truth throughout was event-loop lag. We run a lightweight runtime-health sampler in every task that emits loop lag percentiles, GC pause stats, and the heap limit the runtime actually got. When the loop&rsquo;s p99 climbs, the service is saturated, whatever CPU says.</p>
+
+  <h2>Takeaways</h2>
+  <p><strong>1.</strong> Before trusting any CPU percentage, ask what the process can physically consume.<br>
+  <strong>2.</strong> An autoscaling policy needs a proof it can fire; alarm on &ldquo;time at min_capacity during burst&rdquo; if you keep one you are unsure about.<br>
+  <strong>3.</strong> ALB 5xx and target 5xx are different metrics; a healthy-looking app can still be shedding thousands of requests at the balancer.</p>
+
+  <div class="back"><a href="../index.html">&larr; back</a> &middot; <a href="deploy-sentinels.html">next: teaching an agent to watch its own deploys &rarr;</a></div>
+</div>
+</body>
+</html>

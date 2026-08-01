@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Deploy sentinels: artifact proof, log baselines, and pre-authorized reversal recipes that make AI-shipped changes accountable.">
+<title>Teaching an agent to watch its own deploys · Shubham Parashar</title>
+<style>
+  :root { --bg:#10141f; --line:#232a3b; --text:#e6e8ee; --muted:#9aa3b5; --faint:#6b7488; --accent:#ff8a3d; --green:#7ee787;
+    --mono:"JetBrains Mono","SF Mono",Menlo,monospace; --sans:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:17px; line-height:1.8; }
+  .wrap { max-width:680px; margin:0 auto; padding:44px 24px 80px; }
+  nav a { font-family:var(--mono); color:var(--accent); font-weight:700; font-size:15px; text-decoration:none; }
+  h1 { font-size:clamp(26px,5vw,36px); line-height:1.2; letter-spacing:-0.02em; margin:56px 0 8px; }
+  .meta { font-family:var(--mono); font-size:13px; color:var(--faint); margin-bottom:40px; }
+  p { color:var(--muted); margin-bottom:20px; }
+  h2 { font-size:21px; color:var(--text); margin:40px 0 14px; }
+  strong { color:var(--text); }
+  code { font-family:var(--mono); font-size:14px; background:#0b0f18; border:1px solid var(--line); border-radius:4px; padding:2px 6px; color:var(--green); }
+  .back { margin-top:56px; }
+  .back a { color:var(--accent); text-decoration:none; font-family:var(--mono); font-size:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a href="../index.html">sp@prod ~</a></nav>
+  <h1>Teaching an agent to watch its own deploys</h1>
+  <div class="meta">June 2026 &middot; 15 min &middot; ai agents, deploys, reliability</div>
+
+  <p>AI coding agents are good at writing changes and terrible at owning them. The dangerous moment is not generation; it is the hour after merge, when a plausible-looking change meets production and nobody is watching. The fix is not &ldquo;trust the agent less.&rdquo; It is giving the agent the same accountability loop you would demand from a human: prove the artifact, baseline the signals, watch, and know exactly how to undo.</p>
+
+  <h2>1. Prove the artifact, not the pipeline</h2>
+  <p>&ldquo;CI is green&rdquo; and &ldquo;my code is running in prod&rdquo; are different claims. Pipelines skip, cache, and deploy stale bundles. A sentinel&rsquo;s first job after a deploy is to prove the running artifact contains the change: fetch the deployed bundle or image digest and grep for a marker only the new code has. Until that check passes, the deploy did not happen, whatever the pipeline says.</p>
+
+  <h2>2. Baseline before, sweep after</h2>
+  <p>An anomaly is only detectable relative to what normal looked like. Before the change goes live the sentinel captures a baseline: error classes and rates, p99, event-loop lag, log volume per log type. After, it sweeps on a schedule and compares. Crucially it asserts on <strong>logs, not HTTP status</strong>. Both of our worst near-misses passed every smoke test with clean 200s while background work silently failed; the string <code>is not authorized</code> in a log line was the only tell.</p>
+
+  <h2>3. Count, don&rsquo;t just match</h2>
+  <p>A verification that checks &ldquo;did the good thing happen?&rdquo; misses &ldquo;did it happen 31 extra times?&rdquo;. Sentinels assert counts: expected emissions per event, exact sampling ratios, zero occurrences of forbidden classes. A passing proof that ignores cardinality once hid a bug that reported the same stall 31 times.</p>
+
+  <h2>4. Pre-authorize the reversal</h2>
+  <p>The worst time to design a rollback is during the incident. Every sentinel-watched change carries a reversal recipe written before the merge: the exact command, the task definition or version to restore, and the criteria that trigger it. When detection and reversal are both prepared, flagging a bad deploy is a one-line page instead of a war room.</p>
+
+  <h2>What this buys you</h2>
+  <p>With this loop an agent shipped a fleet resize and an observability overhaul (-83% log volume) with a 7-day automated vigil, 234 checks, zero incidents. The agent did not get more trustworthy. The system around it did, and that is the point: <strong>accountability is a property of the loop, not the model.</strong></p>
+
+  <div class="back"><a href="../index.html">&larr; back</a> &middot; <a href="fargate-cost-41-percent.html">first post in the series &rarr;</a></div>
+</div>
+</body>
+</html>
