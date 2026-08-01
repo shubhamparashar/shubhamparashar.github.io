@@ -17,7 +17,7 @@
   body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.7; }
   .wrap { max-width:880px; margin:0 auto; padding:0 28px; }
 
-  nav { display:flex; gap:26px; font-size:14px; color:var(--muted); padding:44px 0 0; align-items:center; }
+  nav { display:flex; gap:26px; font-size:14px; color:var(--muted); padding:44px 0 0; align-items:center; flex-wrap:wrap; }
   nav .logo { font-family:var(--mono); color:var(--accent); font-weight:700; margin-right:auto; font-size:15px; text-decoration:none; white-space:nowrap; }
   nav a { color:var(--muted); text-decoration:none; }
   nav a:hover { color:#fff; }
@@ -25,20 +25,37 @@
   header { padding:96px 0 0; }
   h1 { font-size:clamp(32px,6vw,46px); line-height:1.14; font-weight:700; letter-spacing:-0.02em; max-width:660px; }
   h1 .accent { color:var(--accent); }
-  .sub { color:var(--muted); max-width:580px; margin-top:20px; font-size:18px; }
+  .sub { color:var(--muted); max-width:600px; margin-top:20px; font-size:18px; }
   .sub a { color:var(--accent); text-decoration:none; }
   .sub a:hover { text-decoration:underline; }
   .statline { display:flex; flex-wrap:wrap; gap:32px 40px; margin-top:40px; font-family:var(--mono); font-size:13px; color:var(--faint); }
   .statline b { display:block; color:var(--text); font-size:21px; }
 
-  h2 { font-size:14px; text-transform:uppercase; letter-spacing:0.14em; color:var(--faint); margin:96px 0 24px; }
+  h2 { font-size:14px; text-transform:uppercase; letter-spacing:0.14em; color:var(--faint); margin:110px 0 24px; }
   .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   .card { border:1px solid var(--line); border-radius:10px; padding:22px; background:var(--panel); display:block; text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s; }
-  .card:hover { border-color:#ff8a3d66; transform:translateY(-2px); }
+  a.card:hover { border-color:#ff8a3d66; transform:translateY(-2px); }
   .card .t { font-weight:600; font-size:18px; display:flex; justify-content:space-between; gap:12px; }
   .card .t .lang { font-family:var(--mono); font-size:12px; color:var(--accent); white-space:nowrap; align-self:center; }
   .card p { color:var(--muted); font-size:15px; margin-top:8px; }
   .card .metric { font-family:var(--mono); font-size:12.5px; color:var(--green); margin-top:14px; }
+  .alsoline { margin-top:18px; color:var(--faint); font-size:14px; }
+  .alsoline a { color:var(--muted); font-family:var(--mono); font-size:13px; text-decoration:none; border-bottom:1px solid var(--line); }
+  .alsoline a:hover { color:var(--accent); border-color:var(--accent); }
+
+  .role { border-left:2px solid var(--line); padding:4px 0 4px 24px; margin-bottom:40px; position:relative; }
+  .role::before { content:""; position:absolute; left:-6px; top:12px; width:10px; height:10px; border-radius:50%; background:var(--accent); }
+  .role .t { font-size:19px; font-weight:600; }
+  .role .m { font-family:var(--mono); font-size:12.5px; color:var(--faint); margin:2px 0 12px; }
+  .role ul { list-style:none; }
+  .role li { color:var(--muted); font-size:15px; padding-left:18px; position:relative; margin-bottom:8px; }
+  .role li::before { content:"›"; position:absolute; left:0; color:var(--accent); }
+  .role b { color:var(--text); font-weight:600; }
+
+  .skills { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .skill { border:1px solid var(--line); border-radius:10px; background:var(--panel); padding:16px 20px; }
+  .skill h3 { font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); margin-bottom:8px; font-weight:500; }
+  .skill p { color:var(--muted); font-size:14.5px; }
 
   .entry { margin-bottom:26px; max-width:640px; }
   .entry .t a { color:var(--text); font-size:19px; font-weight:600; text-decoration:none; border-bottom:1px solid var(--line); }
@@ -46,7 +63,7 @@
   .entry .m { font-family:var(--mono); font-size:12.5px; color:var(--faint); margin-top:4px; }
   .entry .d { color:var(--muted); font-size:15px; margin-top:6px; }
 
-  .ticker { margin-top:96px; border:1px solid var(--line); border-radius:10px; background:#0b0f18; padding:16px 22px; font-family:var(--mono); font-size:13px; color:var(--green); white-space:nowrap; overflow:hidden; }
+  .ticker { margin-top:110px; border:1px solid var(--line); border-radius:10px; background:#0b0f18; padding:16px 22px; font-family:var(--mono); font-size:13px; color:var(--green); white-space:nowrap; overflow:hidden; }
   .ticker .dim { color:#4d5567; }
   .ticker .blink { animation:blink 1.2s steps(1) infinite; }
   @keyframes blink { 50% { opacity:0; } }
@@ -56,8 +73,11 @@
   footer a:hover { color:var(--accent); }
   footer .made { margin-left:auto; }
 
-  @media (max-width:640px){ .grid { grid-template-columns:1fr; } nav { gap:16px; } }
-  @media (prefers-reduced-motion:reduce){ * { animation:none !important; transition:none !important; } html { scroll-behavior:auto; } }
+  .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity:1; transform:none; }
+
+  @media (max-width:640px){ .grid,.skills { grid-template-columns:1fr; } nav { gap:16px; } }
+  @media (prefers-reduced-motion:reduce){ * { animation:none !important; transition:none !important; } html { scroll-behavior:auto; } .reveal { opacity:1; transform:none; } }
 </style>
 </head>
 <body>
@@ -65,6 +85,8 @@
   <nav>
     <a class="logo" href="#">sp@prod ~</a>
     <a href="#work">Work</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
     <a href="#writing">Writing</a>
     <a href="https://github.com/shubhamparashar">GitHub</a>
     <a href="#contact">Contact</a>
@@ -83,60 +105,111 @@
 
   <h2 id="work">Work</h2>
   <div class="grid">
-    <a class="card" href="https://github.com/shubhamparashar/claude-conductor">
+    <a class="card reveal" href="https://github.com/shubhamparashar/claude-conductor">
       <div class="t">claude-conductor <span class="lang">JS</span></div>
       <p>Plugin stack turning Claude Code into a self-improving copilot: persistent memory, model routing, deploy sentinels, knowledge sync.</p>
       <div class="metric">&#9650; used daily in production workflows</div>
     </a>
-    <a class="card" href="https://github.com/shubhamparashar/cc-orchestrator">
+    <a class="card reveal" href="https://github.com/shubhamparashar/cc-orchestrator">
       <div class="t">cc-orchestrator <span class="lang">JS</span></div>
-      <p>Zero-dependency control plane orchestrating 70+ concurrent coding-agent sessions: BM25F indexing, cost tracking, phone access over Tailscale.</p>
+      <p>Zero-dependency control plane orchestrating 70+ concurrent coding-agent sessions: BM25F indexing, cost tracking, phone access over Tailscale. Hardened via an adversarial multi-agent security review.</p>
       <div class="metric">&#9650; 70+ sessions indexed in ~0.26s</div>
     </a>
-    <a class="card" href="posts/fargate-cost-41-percent.html">
-      <div class="t">fleet right-sizing <span class="lang">AWS</span></div>
-      <p>Proved CPU-target autoscaling is structurally dead for single-threaded runtimes; moved a Fargate fleet to request-rate scaling.</p>
-      <div class="metric">&#9650; 41% cheaper per task, p99 flat</div>
-    </a>
-    <a class="card" href="posts/deploy-sentinels.html">
-      <div class="t">log sampling in prod <span class="lang">AWS</span></div>
-      <p>Head-sampled noisy success logs across Lambda and Fargate while keeping failures and slow calls at 100%.</p>
-      <div class="metric">&#9650; -83% observability volume, zero incidents</div>
-    </a>
-    <div class="card">
+    <div class="card reveal">
       <div class="t">durable onboarding workflows <span class="lang">Temporal</span></div>
-      <p>Re-architected credit-card onboarding from a brittle state machine onto Temporal durable workflows: self-healing, resumable execution.</p>
+      <p>Re-architected credit-card onboarding from a brittle state machine onto Temporal durable workflows: self-healing, resumable execution with retry policies.</p>
       <div class="metric">&#9650; weekly manual incidents 250&ndash;300 &rarr; 4&ndash;6</div>
     </div>
-    <div class="card">
+    <div class="card reveal">
       <div class="t">distributed tracing platform <span class="lang">OTel</span></div>
       <p>Root spans on GraphQL, SQS publisher-to-consumer trace propagation, 28 handlers migrated so async work reconstructs to its originating request.</p>
       <div class="metric">&#9650; ~5M messages/day traced end to end</div>
     </div>
+    <div class="card reveal">
+      <div class="t">zone-aware pricing engine <span class="lang">TS</span></div>
+      <p>Config-gated sub-EU pricing engine: storage model, per-zone Shopify sync, resolver and cart overlays, shipped dormant behind a flag until the evidence said go.</p>
+      <div class="metric">&#9650; clean across 52M+ production requests</div>
+    </div>
+    <div class="card reveal">
+      <div class="t">cold-start &amp; caching <span class="lang">AWS</span></div>
+      <p>GraphQL cold-start cut 1.23s &rarr; 0.57s; a 60s Redis read-through cache over a 3-table join removed 50&ndash;70K DB queries/day from a hot path, with per-invocation N+1 detection.</p>
+      <div class="metric">&#9650; 54% latency cut, ~70K queries/day gone</div>
+    </div>
+    <a class="card reveal" href="posts/fargate-cost-41-percent.html">
+      <div class="t">fleet right-sizing <span class="lang">AWS</span></div>
+      <p>Proved CPU-target autoscaling is structurally dead for single-threaded runtimes; moved a Fargate fleet to request-rate scaling behind a 7-day anomaly vigil.</p>
+      <div class="metric">&#9650; 41% cheaper per task, p99 flat</div>
+    </a>
+    <a class="card reveal" href="posts/deploy-sentinels.html">
+      <div class="t">log sampling in prod <span class="lang">AWS</span></div>
+      <p>Head-sampled noisy success logs across Lambda and Fargate while keeping failures and slow calls at 100%, watched by a deploy sentinel.</p>
+      <div class="metric">&#9650; -83% observability volume, zero incidents</div>
+    </a>
+  </div>
+  <p class="alsoline">Also on GitHub: <a href="https://github.com/shubhamparashar/redis-clone">redis-clone</a> (the wire protocol from scratch), <a href="https://github.com/shubhamparashar/localflow">localflow</a> (native macOS automation), and <a href="https://github.com/shubhamparashar?tab=repositories">more &rarr;</a></p>
+
+  <h2 id="experience">Experience</h2>
+  <div class="role reveal">
+    <div class="t">Fleek (YC W22) &middot; Senior Software Engineer</div>
+    <div class="m">Jun 2025 &ndash; present &middot; global B2B fashion marketplace</div>
+    <ul>
+      <li>Built the distributed-tracing platform: per-request root spans, DB and typed AWS SDK spans, and <b>SQS publisher-to-consumer propagation</b> across 28 handlers (~5M msgs/day).</li>
+      <li>Cut GraphQL <b>cold-start latency 54%</b> (1.23s &rarr; 0.57s) and removed 50&ndash;70K DB queries/day with a read-through cache and N+1 detection.</li>
+      <li>Drove RDS right-sizing, OpenSearch decommission, and read-replica routing: <b>~$30K+/yr saved</b>.</li>
+      <li>Designed the config-gated sub-EU pricing engine, clean across <b>52M+ production requests</b>; replaced a rate calculation leaking ~$25K with a 280+ rate per-piece engine.</li>
+    </ul>
+  </div>
+  <div class="role reveal">
+    <div class="t">Uni Cards (Uniorbit) &middot; Senior Software Engineer</div>
+    <div class="m">Jun 2023 &ndash; Jun 2025 &middot; fintech, credit cards</div>
+    <ul>
+      <li>Re-architected onboarding onto <b>Temporal durable workflows</b>: weekly incidents needing manual intervention fell from 250&ndash;300 to 4&ndash;6 (<b>97% reduction</b>).</li>
+      <li>Built a multi-bank transaction platform with per-bank failure handling aligned to each bank&rsquo;s reconciliation process.</li>
+      <li>Shipped an AWS Lambda bridge for bank card-control APIs with config-driven notifications.</li>
+    </ul>
+  </div>
+  <div class="role reveal">
+    <div class="t">Shiprocket (Pickrr) &middot; Software Engineer</div>
+    <div class="m">Nov 2021 &ndash; Jun 2023 &middot; logistics</div>
+    <ul>
+      <li>Re-platformed a legacy Lambda + EventBridge + SQS pipeline onto <b>Kafka</b> after measuring its cost, saving ~$400&ndash;600/mo and improving reliability.</li>
+      <li>Built a weight-inference service correcting shipment weights at runtime: <b>discrepancies down 60%</b>, complaints down 40%.</li>
+    </ul>
+  </div>
+  <div class="role reveal">
+    <div class="t">Nagarro &middot; Software Developer</div>
+    <div class="m">Dec 2020 &ndash; Nov 2021</div>
+    <ul>
+      <li>SharePoint web parts (SPFx, React); foundation in .NET, SQL, and the Node/React stack.</li>
+    </ul>
+  </div>
+
+  <h2 id="skills">Skills</h2>
+  <div class="skills">
+    <div class="skill reveal"><h3>Agentic &amp; applied AI</h3><p>Agent orchestration, multi-agent systems, LLM agents (Anthropic, OpenAI), MCP tooling, RAG and context engineering, eval design, failure-mode analysis</p></div>
+    <div class="skill reveal"><h3>Distributed &amp; durable execution</h3><p>Temporal durable workflows, state machines, Kafka, SQS pub/sub, trace propagation, microservices</p></div>
+    <div class="skill reveal"><h3>Languages &amp; backend</h3><p>TypeScript, Java, Python, SQL &middot; GraphQL (Apollo), Spring Boot, Django</p></div>
+    <div class="skill reveal"><h3>Cloud &amp; data</h3><p>AWS (Lambda, SST/CDK, SQS, ECS/Fargate), PostgreSQL/Aurora, Redis, MongoDB, Kysely</p></div>
+    <div class="skill reveal"><h3>Observability &amp; evaluation</h3><p>OpenTelemetry, SigNoz, structured tracing, metrics, per-invocation anomaly detection</p></div>
+    <div class="skill reveal"><h3>Education</h3><p>B.Tech, Computer Science &amp; Engineering &middot; Bhagwan Parshuram Institute of Technology, Delhi (GGSIPU), 2021</p></div>
   </div>
 
   <h2 id="writing">Writing</h2>
-  <div class="entry">
+  <div class="entry reveal">
     <div class="t"><a href="posts/fargate-cost-41-percent.html">Cutting a Fargate fleet&rsquo;s cost 41% without touching latency</a></div>
     <div class="m">July 2026 &middot; 12 min</div>
     <div class="d">Why a single-threaded runtime can never saturate a multi-vCPU task, and how to resize safely behind a 7-day anomaly vigil.</div>
   </div>
-  <div class="entry">
+  <div class="entry reveal">
     <div class="t"><a href="posts/cpu-autoscaling-structurally-dead.html">Why CPU-target autoscaling is structurally dead</a></div>
     <div class="m">July 2026 &middot; 9 min</div>
     <div class="d">A policy that is mathematically incapable of firing, 12,243 shed requests, and the metric that actually tracks saturation.</div>
   </div>
-  <div class="entry">
+  <div class="entry reveal">
     <div class="t"><a href="posts/deploy-sentinels.html">Teaching an agent to watch its own deploys</a></div>
     <div class="m">June 2026 &middot; 15 min</div>
     <div class="d">Deploy sentinels: artifact proof, log baselines, and pre-authorized reversal recipes for AI-shipped changes.</div>
   </div>
-
-  <h2 id="experience">Experience</h2>
-  <div class="entry"><div class="t">Fleek (YC W22) &middot; Senior Software Engineer</div><div class="m">Jun 2025 &ndash; present &middot; marketplace scale, tracing, cost, pricing engines</div></div>
-  <div class="entry"><div class="t">Uni Cards &middot; Senior Software Engineer</div><div class="m">2023 &ndash; 2025 &middot; Temporal durable workflows, multi-bank transaction platform</div></div>
-  <div class="entry"><div class="t">Shiprocket (Pickrr) &middot; Software Engineer</div><div class="m">2021 &ndash; 2023 &middot; Kafka re-platforming, weight inference service (-60% discrepancies)</div></div>
-  <div class="entry"><div class="t">Nagarro &middot; Software Developer</div><div class="m">2020 &ndash; 2021</div></div>
 
   <div class="ticker"><span class="dim">agent-log &rsaquo;</span> <span id="tick">deploy sentinel armed</span> <span class="dim">&middot;</span> 0 anomalies in 234 checks <span class="dim">&middot;</span> log sampler holding at -83% <span class="blink">&#9646;</span></div>
 
@@ -152,8 +225,20 @@
   const states = ["deploy sentinel armed", "vigil sweep clean", "p99 flat", "artifact proven", "fleet healthy 7/7"];
   let i = 0;
   const el = document.getElementById("tick");
-  if (el && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (el && !reduced) {
     setInterval(() => { i = (i + 1) % states.length; el.textContent = states[i]; }, 3000);
+  }
+  const nodes = [...document.querySelectorAll(".reveal")];
+  if (!reduced && "IntersectionObserver" in window && !document.hidden) {
+    nodes.forEach((n) => { if (n.getBoundingClientRect().top < innerHeight) n.classList.add("in"); });
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { rootMargin: "-40px" });
+    nodes.forEach((n) => { if (!n.classList.contains("in")) io.observe(n); });
+    setTimeout(() => nodes.forEach((n) => n.classList.add("in")), 6000);
+  } else {
+    nodes.forEach((n) => n.classList.add("in"));
   }
 </script>
 </body>
