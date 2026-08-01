@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Shubham Parashar. Backend engineer at Fleek. Building backend systems that stay up and AI agents you can trust in prod.">
-<title>Shubham Parashar · Backend &amp; Agent Engineer</title>
+<meta name="description" content="Shubham Parashar. Senior software engineer at Fleek. High-throughput fault-tolerant backends on AWS, durable workflows, and AI agent orchestration.">
+<title>Shubham Parashar · Senior Backend &amp; Agent Engineer</title>
 <style>
   :root {
     --bg:#10141f; --panel:#141927; --line:#232a3b; --text:#e6e8ee;
@@ -72,12 +72,12 @@
 
   <header>
     <h1>Backend systems that stay up.<br>Agents you can <span class="accent">trust in prod</span>.</h1>
-    <p class="sub">I&rsquo;m Shubham Parashar, an engineer at <a href="https://www.joinfleek.com">Fleek</a>, scaling a global B2B fashion marketplace. On the side I build the tooling layer that makes AI coding agents accountable: memory, routing, and deploy sentinels.</p>
+    <p class="sub">I&rsquo;m Shubham Parashar, senior software engineer at <a href="https://www.joinfleek.com">Fleek</a> (YC W22). 5+ years building high-throughput, fault-tolerant systems on AWS. My obsession is state consistency under real conditions: what a system persists must equal what it later reconstructs, whether that&rsquo;s a payment workflow or an AI agent mid-task.</p>
     <div class="statline">
-      <span><b>41%</b>infra cost cut</span>
-      <span><b>-83%</b>log volume</span>
-      <span><b>0</b>5xx on cutover</span>
-      <span><b>15+</b>open repos</span>
+      <span><b>97%</b>incidents cut via durable workflows</span>
+      <span><b>54%</b>cold-start latency cut</span>
+      <span><b>$30K+/yr</b>cloud cost saved</span>
+      <span><b>5M/day</b>messages traced</span>
     </div>
   </header>
 
@@ -90,8 +90,8 @@
     </a>
     <a class="card" href="https://github.com/shubhamparashar/cc-orchestrator">
       <div class="t">cc-orchestrator <span class="lang">JS</span></div>
-      <p>Session indexing for AI coding agents. Resume, fork, and search past agent work across sessions.</p>
-      <div class="metric">&#9650; powers cross-session recall</div>
+      <p>Zero-dependency control plane orchestrating 70+ concurrent coding-agent sessions: BM25F indexing, cost tracking, phone access over Tailscale.</p>
+      <div class="metric">&#9650; 70+ sessions indexed in ~0.26s</div>
     </a>
     <a class="card" href="posts/fargate-cost-41-percent.html">
       <div class="t">fleet right-sizing <span class="lang">AWS</span></div>
@@ -103,16 +103,16 @@
       <p>Head-sampled noisy success logs across Lambda and Fargate while keeping failures and slow calls at 100%.</p>
       <div class="metric">&#9650; -83% observability volume, zero incidents</div>
     </a>
-    <a class="card" href="https://github.com/shubhamparashar/localflow">
-      <div class="t">localflow <span class="lang">Swift</span></div>
-      <p>Native macOS app for building and running local automation workflows without the cloud.</p>
-      <div class="metric">&#9650; local-first by design</div>
-    </a>
-    <a class="card" href="https://github.com/shubhamparashar/redis-clone">
-      <div class="t">redis-clone <span class="lang">C</span></div>
-      <p>The Redis wire protocol and core data structures from scratch, to understand what makes an in-memory store fast.</p>
-      <div class="metric">&#9650; RESP2 compatible</div>
-    </a>
+    <div class="card">
+      <div class="t">durable onboarding workflows <span class="lang">Temporal</span></div>
+      <p>Re-architected credit-card onboarding from a brittle state machine onto Temporal durable workflows: self-healing, resumable execution.</p>
+      <div class="metric">&#9650; weekly manual incidents 250&ndash;300 &rarr; 4&ndash;6</div>
+    </div>
+    <div class="card">
+      <div class="t">distributed tracing platform <span class="lang">OTel</span></div>
+      <p>Root spans on GraphQL, SQS publisher-to-consumer trace propagation, 28 handlers migrated so async work reconstructs to its originating request.</p>
+      <div class="metric">&#9650; ~5M messages/day traced end to end</div>
+    </div>
   </div>
 
   <h2 id="writing">Writing</h2>
@@ -132,10 +132,16 @@
     <div class="d">Deploy sentinels: artifact proof, log baselines, and pre-authorized reversal recipes for AI-shipped changes.</div>
   </div>
 
+  <h2 id="experience">Experience</h2>
+  <div class="entry"><div class="t">Fleek (YC W22) &middot; Senior Software Engineer</div><div class="m">Jun 2025 &ndash; present &middot; marketplace scale, tracing, cost, pricing engines</div></div>
+  <div class="entry"><div class="t">Uni Cards &middot; Senior Software Engineer</div><div class="m">2023 &ndash; 2025 &middot; Temporal durable workflows, multi-bank transaction platform</div></div>
+  <div class="entry"><div class="t">Shiprocket (Pickrr) &middot; Software Engineer</div><div class="m">2021 &ndash; 2023 &middot; Kafka re-platforming, weight inference service (-60% discrepancies)</div></div>
+  <div class="entry"><div class="t">Nagarro &middot; Software Developer</div><div class="m">2020 &ndash; 2021</div></div>
+
   <div class="ticker"><span class="dim">agent-log &rsaquo;</span> <span id="tick">deploy sentinel armed</span> <span class="dim">&middot;</span> 0 anomalies in 234 checks <span class="dim">&middot;</span> log sampler holding at -83% <span class="blink">&#9646;</span></div>
 
   <footer id="contact">
-    <a href="mailto:shubhamparashar210@gmail.com">email</a>
+    <a href="mailto:shubham.parashar.job@gmail.com">email</a>
     <a href="https://github.com/shubhamparashar">github</a>
     <a href="https://www.linkedin.com/in/shubham-parashar-80333b173/">linkedin</a>
     <span class="made">0 frameworks. Loads before you blink.</span>
